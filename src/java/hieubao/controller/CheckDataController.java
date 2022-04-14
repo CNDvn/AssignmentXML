@@ -35,7 +35,7 @@ public class CheckDataController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = ERROR_PAGE;
+        String url = CHECK_FILE_FAIL_PAGE;
         Part filePart = request.getPart("data");
         try {
             String xmlPath = request.getServletContext().getRealPath("/xml/application_db_check.xml");
@@ -44,18 +44,16 @@ public class CheckDataController extends HttpServlet {
 
             if (XmlUtil.ValidationXMLSchame(xsdPath, xmlPath)) {
                 url = CHECK_FILE_SUCCESS_PAGE;
-            } else {
-                url = CHECK_FILE_FAIL_PAGE;
             }
         } catch (SAXException e) {
             e.printStackTrace();
-            request.setAttribute("error", e);
+            request.setAttribute("error", e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
-            request.setAttribute("error", e);
+            request.setAttribute("error", e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("error", e);
+            request.setAttribute("error", e.getMessage());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

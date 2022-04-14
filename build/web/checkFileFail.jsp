@@ -12,6 +12,6 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Error</h1>
+        <h1>${requestScope.error}</h1>
     </body>
 </html>
