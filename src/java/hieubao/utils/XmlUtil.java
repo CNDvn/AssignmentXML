@@ -28,91 +28,82 @@ import org.xml.sax.SAXException;
 
 public class XmlUtil {
 
-    public static void GenerateXmlFile(String xmlFilePath)throws Exception{
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuild = documentFactory.newDocumentBuilder();
-            Document document = documentBuild.newDocument();
+    public static void GenerateXmlFile(String xmlFilePath) throws Exception {
+        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuild = documentFactory.newDocumentBuilder();
+        Document document = documentBuild.newDocument();
 
-            //root element
-            Element root = document.createElement("root");
-            document.appendChild(root);
+        //root element
+        Element root = document.createElement("root");
+        document.appendChild(root);
 
-            // categories element
-            Element categories = document.createElement("categories");
-            root.appendChild(categories);
+        // categories element
+        Element categories = document.createElement("categories");
+        root.appendChild(categories);
 
-            for (int i = 1; i <= 1000; i++) {
-                // category
-                Element category = document.createElement("category");
-                Element idCategory = document.createElement("idCategory");
-                idCategory.setTextContent("P003");
-                category.appendChild(idCategory);
-                Element nameCategory = document.createElement("nameCategory");
-                nameCategory.setTextContent("Guci Guci");
-                category.appendChild(nameCategory);
-                categories.appendChild(category);
-            }
+        for (int i = 1; i <= 1000; i++) {
+            // category
+            Element category = document.createElement("category");
+            Element idCategory = document.createElement("idCategory");
+            idCategory.setTextContent("P0003");
+            category.appendChild(idCategory);
+            Element nameCategory = document.createElement("nameCategory");
+            nameCategory.setTextContent("Guci Guci");
+            category.appendChild(nameCategory);
+            categories.appendChild(category);
+        }
 
-            // products element
-            Element products = document.createElement("products");
-            root.appendChild(products);
+        // products element
+        Element products = document.createElement("products");
+        root.appendChild(products);
 
-            for (int i = 1; i <= 1000; i++) {
-                // product
-                Element product = document.createElement("product");
-                Element idProduct = document.createElement("id");
-                idProduct.setTextContent("C112");
-                product.appendChild(idProduct);
-                Element idCate = document.createElement("idCategory");
-                idCate.setTextContent("P003");
-                product.appendChild(idCate);
-                Element name = document.createElement("name");
-                name.setTextContent("Nike A33");
-                product.appendChild(name);
-                Element image = document.createElement("image");
-                image.setTextContent("http://www.imgbb/123");
-                product.appendChild(image);
-                Element price = document.createElement("price");
-                price.setTextContent("10000");
-                product.appendChild(price);
-                Element dateCreate = document.createElement("dateCreate");
-                dateCreate.setTextContent("22/04/2000");
-                product.appendChild(dateCreate);
-                Element description = document.createElement("description");
-                description.setTextContent("khong co doi giay nay thi thoi");
-                product.appendChild(description);
-                products.appendChild(product);
-            }
+        for (int i = 1; i <= 1000; i++) {
+            // product
+            Element product = document.createElement("product");
+            Element idProduct = document.createElement("id");
+            idProduct.setTextContent("C0112");
+            product.appendChild(idProduct);
+            Element idCate = document.createElement("idCategory");
+            idCate.setTextContent("P0003");
+            product.appendChild(idCate);
+            Element name = document.createElement("name");
+            name.setTextContent("Nike A33");
+            product.appendChild(name);
+            Element image = document.createElement("image");
+            image.setTextContent("http://www.imgbb/123");
+            product.appendChild(image);
+            Element price = document.createElement("price");
+            price.setTextContent("10000");
+            product.appendChild(price);
+            Element dateCreate = document.createElement("dateCreate");
+            dateCreate.setTextContent("22/04/2000");
+            product.appendChild(dateCreate);
+            Element description = document.createElement("description");
+            description.setTextContent("khong co doi giay nay thi thoi");
+            product.appendChild(description);
+            products.appendChild(product);
+        }
 
-            //create the xml file 
-            // transform  the DOM object to an XML file 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+        //create the xml file 
+        // transform  the DOM object to an XML file 
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource domSource = new DOMSource(document);
+        StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
-            // If you use
-            // StreamResult result = new StreamResult(System.out);
-            // the output will be pushed to the standard output ...
-            // You can use that for debugging 
-            transformer.transform(domSource, streamResult);
-            System.out.println("Done creating XML file");
+        // If you use
+        // StreamResult result = new StreamResult(System.out);
+        // the output will be pushed to the standard output ...
+        // You can use that for debugging 
+        transformer.transform(domSource, streamResult);
     }
 
-    public static boolean ValidationXMLSchame(String xsdPath, String xmlPath) {
-        try {
-            SchemaFactory factory
-                    = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = factory.newSchema(new File(xsdPath));
-            Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(new File(xmlPath)));
-        } catch (IOException e) {
-            System.out.println("Exception: " + e.getMessage());
-            return false;
-        } catch (SAXException e1) {
-            System.out.println("SAX Exception: " + e1.getMessage());
-            return false;
-        }
+    public static boolean ValidationXMLSchame(String xsdPath, String xmlPath) throws IOException, SAXException {
+        SchemaFactory factory
+                = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(new File(xsdPath));
+        Validator validator = schema.newValidator();
+        validator.validate(new StreamSource(new File(xmlPath)));
 
         return true;
     }

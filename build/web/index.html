@@ -13,11 +13,18 @@ and open the template in the editor.
     <body>
         <div>
             <h2>Choose feature</h2>
-            <form method="post" action="MainController">
-                <input type="submit" name="btnAction" value="Generate Data" />
-                <input type="submit" name="btnAction" value="Check Data" />
+            <div>
+                <form method="post" action="MainController">
+                    <input type="submit" name="btnAction" value="Generate Data" />
+                </form>
+            </div>
 
-            </form>
+            <div style="margin-top: 10px">
+                <form method="post" action="CheckDataController" enctype="multipart/form-data">
+                    <input name="data" type="file" />
+                    <input type="submit" name="btnAction" value="Check Data" />
+                </form>
+            </div>
         </div>
     </body>
 </html>

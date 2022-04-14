@@ -6,7 +6,10 @@
 package hieubao.controller;
 
 import hieubao.utils.XmlUtil;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,15 +30,30 @@ public class GenerateDataController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        response.setHeader("Content-disposition", "attachment; filename=application_db.xml");
+        PrintWriter out = response.getWriter();
         String url = INDEX_PAGE;
         try {
-            String path = "D:\\FU\\CN_VIII\\PRX\\NikeShop\\xml\\application_db.xml";
+            String path = request.getServletContext().getRealPath("/xml/application_db.xml");
             XmlUtil.GenerateXmlFile(path);
+
+            FileInputStream fis = new FileInputStream(path);
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+            while (true) {
+                String s = br.readLine();
+                if (s == null) {
+                    break;
+                }
+                out.println(s);
+                out.flush();
+            }
+            fis.close();
         } catch (Exception e) {
             e.printStackTrace();
             url = ERROR_PAGE;
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);
+            out.close();
+
         }
     }
 
