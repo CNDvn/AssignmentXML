@@ -47,7 +47,7 @@ public class MainController extends HttpServlet {
                 url = ADD_PRODUCT;
             }
 
-            if ("Manage Product".equals(action)) {
+            if ("Manage Product".equals(action) || "search".equals(action)) {
                 url = MANAGE_PRODUCT;
             }
             if ("deleteProduct".equals(action)) {

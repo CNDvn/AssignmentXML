@@ -87,7 +87,7 @@ public class ProductDAO {
         transformer.transform(domSource, streamResult);
     }
 
-    public List<ProductDTO> getProducts(String fileName, String category)
+    public List<ProductDTO> getProducts(String fileName, String category, String filter)
             throws ParserConfigurationException,
             SAXException,
             IOException {
@@ -116,21 +116,34 @@ public class ProductDAO {
                 Element element = (Element) node;
                 String idCategory = element.getElementsByTagName("idCategory").item(0).getTextContent();
                 if (category == null) {
-                    String id = element.getElementsByTagName("id").item(0).getTextContent();
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
+
+                    String id = element.getElementsByTagName("id").item(0).getTextContent();
                     String image = element.getElementsByTagName("image").item(0).getTextContent();
                     double price = Double.parseDouble(element.getElementsByTagName("price").item(0).getTextContent());
                     String dateCreate = element.getElementsByTagName("dateCreate").item(0).getTextContent();
                     String description = element.getElementsByTagName("description").item(0).getTextContent();
                     products.add(new ProductDTO(id, idCategory, name, image, price, dateCreate, description));
+
                 } else if (idCategory.equals(category)) {
-                    String id = element.getElementsByTagName("id").item(0).getTextContent();
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
-                    String image = element.getElementsByTagName("image").item(0).getTextContent();
-                    double price = Double.parseDouble(element.getElementsByTagName("price").item(0).getTextContent());
-                    String dateCreate = element.getElementsByTagName("dateCreate").item(0).getTextContent();
-                    String description = element.getElementsByTagName("description").item(0).getTextContent();
-                    products.add(new ProductDTO(id, idCategory, name, image, price, dateCreate, description));
+
+                    if (name.indexOf(filter) > 0) {
+                        String id = element.getElementsByTagName("id").item(0).getTextContent();
+                        String image = element.getElementsByTagName("image").item(0).getTextContent();
+                        double price = Double.parseDouble(element.getElementsByTagName("price").item(0).getTextContent());
+                        String dateCreate = element.getElementsByTagName("dateCreate").item(0).getTextContent();
+                        String description = element.getElementsByTagName("description").item(0).getTextContent();
+                        products.add(new ProductDTO(id, idCategory, name, image, price, dateCreate, description));
+                    }
+                    if (filter == "") {
+                        String id = element.getElementsByTagName("id").item(0).getTextContent();
+                        String image = element.getElementsByTagName("image").item(0).getTextContent();
+                        double price = Double.parseDouble(element.getElementsByTagName("price").item(0).getTextContent());
+                        String dateCreate = element.getElementsByTagName("dateCreate").item(0).getTextContent();
+                        String description = element.getElementsByTagName("description").item(0).getTextContent();
+                        products.add(new ProductDTO(id, idCategory, name, image, price, dateCreate, description));
+                    }
                 }
 
             }

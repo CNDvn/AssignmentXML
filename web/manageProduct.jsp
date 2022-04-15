@@ -22,18 +22,20 @@
             }
         </style>
         <div>
-            <select onchange="((value) => {
-                        window.location.href = 'MainController?btnAction=Manage Product&idCategory=' + value
-                    })(this.value)">
-                <c:forEach var="category" items="${categories}">
-                    <c:if test="${requestScope.idCategory eq category.id}">
-                        <option selected value="${category.id}">${category.name}</option>
-                    </c:if>
-                    <c:if test="${requestScope.idCategory != category.id}">
-                        <option value="${category.id}">${category.name}</option>
-                    </c:if>
-                </c:forEach>
-            </select>
+            <form action="MainController" method="POST">
+                <input name="searchValue" value="${filter}" placeholder="Search..."/>
+                <select name="idCategory">
+                    <c:forEach var="category" items="${categories}">
+                        <c:if test="${requestScope.idCategory eq category.id}">
+                            <option selected value="${category.id}">${category.name}</option>
+                        </c:if>
+                        <c:if test="${requestScope.idCategory != category.id}">
+                            <option value="${category.id}">${category.name}</option>
+                        </c:if>
+                    </c:forEach>
+                </select>
+                <button name="btnAction" value="search">Search</button>
+            </form>
             <a href="MainController?btnAction=addNew">Add New</a>
         </div>
         <c:if test="${not empty products}">

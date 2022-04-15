@@ -34,13 +34,15 @@ public class ManageProductController extends HttpServlet {
         String url = ERROR_PAGE;
         String xmlPath = request.getServletContext().getRealPath("/xml/application_db.xml");
         String idCategory = request.getParameter("idCategory");
+        String filter = request.getParameter("searchValue");
+        request.setAttribute("filter", filter);
         try {
             request.setAttribute("idCategory", idCategory);
             CategoryDAO daoCate = new CategoryDAO();
             List<CategoryDTO> categories = daoCate.getAll(xmlPath);
             request.setAttribute("categories", categories);
             ProductDAO dao = new ProductDAO();
-            List<ProductDTO> products = dao.getProducts(xmlPath, idCategory);
+            List<ProductDTO> products = dao.getProducts(xmlPath, idCategory, filter);
             request.setAttribute("products", products);
             url = MANAGE_PRODUCT;
         } catch (Exception e) {
