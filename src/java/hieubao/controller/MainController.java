@@ -10,7 +10,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import hieubao.utils.XmlUtil;
 
 /**
  *
@@ -21,6 +20,10 @@ public class MainController extends HttpServlet {
     private final String INDEX_PAGE = "index.html";
     private final String GENERATE_DATA = "GenerateDataController";
     private final String CHECK_DATA = "CheckDataController";
+    private final String ADD_CATEGORY = "AddCategoryController";
+    private final String ADD_PRODUCT = "AddProductController";
+    private final String MANAGE_PRODUCT = "ManageProductController";
+    private final String DELETE_PRODUCT = "DeleteProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -31,10 +34,24 @@ public class MainController extends HttpServlet {
             if ("Generate Data".equals(action)) {
                 url = GENERATE_DATA;
             }
-            if("Check Data".equals(action)){
+            if ("Check Data".equals(action)) {
                 url = CHECK_DATA;
             }
 
+            if ("New Category".equals(action)) {
+                url = ADD_CATEGORY;
+            }
+
+            if ("Add Product".equals(action)) {
+                url = ADD_PRODUCT;
+            }
+
+            if ("Manage Product".equals(action)) {
+                url = MANAGE_PRODUCT;
+            }
+            if ("deleteProduct".equals(action)) {
+                url = DELETE_PRODUCT;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

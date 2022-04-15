@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
+    <categories>
+        <category>
+            <idCategory>P0000</idCategory>
+            <nameCategory>Women</nameCategory>
+        </category>
+        <category>
+            <idCategory>P0001</idCategory>
+            <nameCategory>Men</nameCategory>
+        </category>
+        <category>
+            <idCategory>P0002</idCategory>
+            <nameCategory>Student</nameCategory>
+        </category>
+        <category>
+            <idCategory>P0003</idCategory>
+            <nameCategory>Supper</nameCategory>
+        </category>
+    </categories>
+    <products>
+        <product>
+            <id>C0112</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike A33</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0113</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike 3</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0114</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike 4</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0115</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike 5</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0116</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike 6</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0117</id>
+            <idCategory>P0000</idCategory>
+            <name>Nike 7</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0118</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 61</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        
+        <product>
+            <id>C0119</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 51</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0120</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 41</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>   
+        <product>
+            <id>C0121</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 31</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0122</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 21</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0123</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 111</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+        <product>
+            <id>C0134</id>
+            <idCategory>P0003</idCategory>
+            <name>Nike Supper 11</name>
+            <image>http://www.imgbb/123</image>
+            <price>10000</price>
+            <dateCreate>22/04/2000</dateCreate>
+            <description>khong co doi giay nay thi thoi</description>
+        </product>
+
+    </products>
+</root>
