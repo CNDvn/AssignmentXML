@@ -138,6 +138,53 @@ public class ProductDAO {
         return products;
     }
 
+    public boolean updateProductById(String fileName, ProductDTO newProduct)
+            throws ParserConfigurationException,
+            SAXException,
+            IOException,
+            TransformerException {
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        // optional, but recommended
+        // process XML securely, avoid attacks like XML External Entities (XXE)
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        Document doc = db.parse(new File(fileName));
+
+        // optional, but recommended
+        // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+        doc.getDocumentElement().normalize();
+
+        //get <product>
+        NodeList list = doc.getElementsByTagName("product");
+        for (int i = 0; i < list.getLength(); i++) {
+            Node node = list.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                String oldId = element.getElementsByTagName("id").item(0).getTextContent();
+                if (newProduct.getId().equals(oldId)) {
+                    element.getElementsByTagName("name").item(0).setTextContent(newProduct.getName().trim());
+                    element.getElementsByTagName("image").item(0).setTextContent(newProduct.getImage().trim());
+                    element.getElementsByTagName("price").item(0).setTextContent("" + newProduct.getPrice());
+                    element.getElementsByTagName("dateCreate").item(0).setTextContent(newProduct.getDateCreate().trim());
+                    element.getElementsByTagName("description").item(0).setTextContent(newProduct.getDescription().trim());
+
+                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                    Transformer transformer = transformerFactory.newTransformer();
+                    DOMSource domSource = new DOMSource(doc);
+                    StreamResult streamResult = new StreamResult(new File(fileName));
+                    transformer.transform(domSource, streamResult);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public ProductDTO deleteProductById(String fileName, String id)
             throws ParserConfigurationException,
             SAXException,

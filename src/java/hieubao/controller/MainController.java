@@ -24,6 +24,7 @@ public class MainController extends HttpServlet {
     private final String ADD_PRODUCT = "AddProductController";
     private final String MANAGE_PRODUCT = "ManageProductController";
     private final String DELETE_PRODUCT = "DeleteProductController";
+    private final String UPDATE_PRODUCT = "UpdateProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -42,7 +43,7 @@ public class MainController extends HttpServlet {
                 url = ADD_CATEGORY;
             }
 
-            if ("Add Product".equals(action)) {
+            if ("addNew".equals(action) || "Add Product".equals(action)) {
                 url = ADD_PRODUCT;
             }
 
@@ -52,6 +53,11 @@ public class MainController extends HttpServlet {
             if ("deleteProduct".equals(action)) {
                 url = DELETE_PRODUCT;
             }
+
+            if ("updateProduct".equals(action)) {
+                url = UPDATE_PRODUCT;
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

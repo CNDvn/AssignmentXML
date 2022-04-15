@@ -137,5 +137,5 @@
             <description>khong co doi giay nay thi thoi</description>
         </product>
 
-    </products>
+    <product><id>C1122</id><idCategory>P0003</idCategory><name>Nike Supper max</name><image>http://localhost:8084/NikeShop/MainController?btnAction=addNew</image><price>12.0</price><dateCreate>12/12/2000</dateCreate><description>chang biet noi gi</description></product></products>
 </root>
