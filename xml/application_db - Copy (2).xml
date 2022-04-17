@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><root>
     <categories>
         <category>
-            <idCategory>P0000</idCategory>
-            <nameCategory>Women</nameCategory>
-        </category>
-        <category>
-            <idCategory>P0001</idCategory>
-            <nameCategory>Men</nameCategory>
-        </category>
-        <category>
-            <idCategory>P0002</idCategory>
-            <nameCategory>Student</nameCategory>
+            <idCategory>P0003</idCategory>
+            <nameCategory>Guci Guci</nameCategory>
         </category>
         <category>
             <idCategory>P0003</idCategory>
-            <nameCategory>Supper</nameCategory>
+            <nameCategory>Guci Guci</nameCategory>
         </category>
     </categories>
     <products>
@@ -81,7 +73,6 @@
             <dateCreate>22/04/2000</dateCreate>
             <description>khong co doi giay nay thi thoi</description>
         </product>
-        
         <product>
             <id>C0119</id>
             <idCategory>P0003</idCategory>
@@ -136,6 +127,6 @@
             <dateCreate>22/04/2000</dateCreate>
             <description>khong co doi giay nay thi thoi</description>
         </product>
-
     </products>
+
 </root>

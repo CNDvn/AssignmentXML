@@ -5,10 +5,17 @@
  */
 package hieubao.product;
 
+import hieubao.utils.DBHelper;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.naming.NamingException;
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -29,7 +36,23 @@ import org.xml.sax.SAXException;
  *
  * @author CND
  */
-public class ProductDAO {
+public class ProductDAO implements Serializable {
+
+    private Connection con;
+    private PreparedStatement stm;
+    private ResultSet rs;
+
+    private void closeDB() throws SQLException {
+        if (rs != null) {
+            rs.close();
+        }
+        if (stm != null) {
+            stm.close();
+        }
+        if (con != null) {
+            con.close();
+        }
+    }
 
     public void addNew(String fileName, ProductDTO dto)
             throws ParserConfigurationException,
@@ -252,5 +275,26 @@ public class ProductDAO {
             }
         }
         return null;
+    }
+
+    public void importXMLFIleToDatabase(List<ProductDTO> products) throws NamingException, SQLException {
+        con = DBHelper.getConnect();
+        try {
+            if (con != null) {
+                String sql = "INSERT INTO products(id, idCategory, name, image, price, description) VALUES(?, ?, ?, ?, ?, ?)";
+                stm = con.prepareStatement(sql);
+                for (ProductDTO product : products) {
+                    stm.setString(1, product.getId());
+                    stm.setString(2, product.getIdCategory());
+                    stm.setString(3, product.getName());
+                    stm.setString(4, product.getImage());
+                    stm.setDouble(5, product.getPrice());
+                    stm.setString(6, product.getDescription());
+                    stm.executeUpdate();
+                }
+            }
+        } finally {
+            closeDB();
+        }
     }
 }

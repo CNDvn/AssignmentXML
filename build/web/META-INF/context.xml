@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/NikeShop"/>
+<Context path="/NikeShop">
+    <Resource name="NikeShop" type="javax.sql.DataSource"
+              auth="Container"
+              driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+              url="jdbc:sqlserver://localhost:1433;databaseName=NikeShop"
+              username="sa" password="12345"
+    />    
+</Context>
+

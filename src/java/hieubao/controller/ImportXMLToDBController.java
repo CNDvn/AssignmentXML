@@ -5,8 +5,12 @@
  */
 package hieubao.controller;
 
+import hieubao.product.ProductDAO;
+import hieubao.product.ProductDTO;
+import hieubao.utils.DBHelper;
 import hieubao.utils.XmlUtil;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -20,28 +24,34 @@ import org.xml.sax.SAXException;
  *
  * @author CND
  */
-@WebServlet(name = "CheckDataController", urlPatterns = {"/CheckDataController"})
+@WebServlet(name = "ImportXMLToDBController", urlPatterns = {"/ImportXMLToDBController"})
 @MultipartConfig
-public class CheckDataController extends HttpServlet {
+public class ImportXMLToDBController extends HttpServlet {
 
-    private final String INDEX_PAGE = "index.html";
-    private final String ERROR_PAGE = "error.html";
+    private final static String SUCCESS_PAGE = "importDataSuccess.html";
+    private final static String ERROR_PAGE = "error.html";
     private final String CHECK_FILE_FAIL_PAGE = "checkFileFail.jsp";
-    private final String CHECK_FILE_SUCCESS_PAGE = "checkFileSuccess.html";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = CHECK_FILE_FAIL_PAGE;
         Part filePart = request.getPart("data");
+        String url = ERROR_PAGE;
         try {
-            String xmlPath = request.getServletContext().getRealPath("/xml/application_db_check.xml");
+            String xmlPath = request.getServletContext().getRealPath("/xml/importFile.xml");
             String xsdPath = request.getServletContext().getRealPath("/xml/schema.xml");
 
             XmlUtil.writeFile(request, filePart, xmlPath);
 
             if (XmlUtil.ValidationXMLSchame(xsdPath, xmlPath)) {
-                url = CHECK_FILE_SUCCESS_PAGE;
+                if (DBHelper.getConnect() != null) {
+                    ProductDAO dao = new ProductDAO();
+                    List<ProductDTO> products = dao.getProducts(xmlPath, null, null);
+                    dao.importXMLFIleToDatabase(products);
+                    url = SUCCESS_PAGE;
+                }
+            } else {
+                url = CHECK_FILE_FAIL_PAGE;
             }
         } catch (SAXException e) {
             e.printStackTrace();
@@ -57,18 +67,40 @@ public class CheckDataController extends HttpServlet {
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
 
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
     @Override
     public String getServletInfo() {
         return "Short description";

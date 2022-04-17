@@ -30,6 +30,13 @@ and open the template in the editor.
                     <input type="submit" name="btnAction" value="Manage Product" />
                 </form>
             </div>
+            <div style="margin-top: 10px">
+                <form method="post" action="ImportXMLToDBController" enctype="multipart/form-data">
+                    <input name="data" type="file" />
+                    <input type="submit" name="btnAction" value="Import data" />
+                </form>
+            </div>
+            <a href="MainController?btnAction=export">Export</a>
         </div>
     </body>
 </html>
