@@ -277,24 +277,80 @@ public class ProductDAO implements Serializable {
         return null;
     }
 
-    public void importXMLFIleToDatabase(List<ProductDTO> products) throws NamingException, SQLException {
-        con = DBHelper.getConnect();
-        try {
-            if (con != null) {
-                String sql = "INSERT INTO products(id, idCategory, name, image, price, description) VALUES(?, ?, ?, ?, ?, ?)";
-                stm = con.prepareStatement(sql);
-                for (ProductDTO product : products) {
-                    stm.setString(1, product.getId());
-                    stm.setString(2, product.getIdCategory());
-                    stm.setString(3, product.getName());
-                    stm.setString(4, product.getImage());
-                    stm.setDouble(5, product.getPrice());
-                    stm.setString(6, product.getDescription());
-                    stm.executeUpdate();
-                }
-            }
-        } finally {
-            closeDB();
+//    public void importXMLFIleToDatabase(List<ProductDTO> products) throws NamingException, SQLException {
+//        con = DBHelper.getConnect();
+//        try {
+//            if (con != null) {
+//                String sql = "INSERT INTO products(id, idCategory, name, image, price, description) VALUES(?, ?, ?, ?, ?, ?)";
+//                stm = con.prepareStatement(sql);
+//                for (ProductDTO product : products) {
+//                    stm.setString(1, product.getId());
+//                    stm.setString(2, product.getIdCategory());
+//                    stm.setString(3, product.getName());
+//                    stm.setString(4, product.getImage());
+//                    stm.setDouble(5, product.getPrice());
+//                    stm.setString(6, product.getDescription());
+//                    stm.executeUpdate();
+//                }
+//            }
+//        } finally {
+//            closeDB();
+//        }
+//    }
+    public void importXMLFIleToDatabase(String fileName, List<ProductDTO> products) throws ParserConfigurationException,
+            SAXException,
+            IOException,
+            TransformerConfigurationException,
+            TransformerException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        // optional, but recommended
+        // process XML securely, avoid attacks like XML External Entities (XXE)
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        Document doc = db.parse(new File(fileName));
+
+        // optional, but recommended
+        // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+        doc.getDocumentElement().normalize();
+
+        //get <products>
+        Node nodeProducts = doc.getElementsByTagName("products").item(0);
+
+        for (ProductDTO dto : products) {
+            Element product = doc.createElement("product");
+            Element idProduct = doc.createElement("id");
+            idProduct.setTextContent(dto.getId());
+            product.appendChild(idProduct);
+            Element idCate = doc.createElement("idCategory");
+            idCate.setTextContent(dto.getIdCategory());
+            product.appendChild(idCate);
+            Element name = doc.createElement("name");
+            name.setTextContent(dto.getName());
+            product.appendChild(name);
+            Element image = doc.createElement("image");
+            image.setTextContent(dto.getImage());
+            product.appendChild(image);
+            Element price = doc.createElement("price");
+            price.setTextContent("" + dto.getPrice());
+            product.appendChild(price);
+            Element dateCreate = doc.createElement("dateCreate");
+            dateCreate.setTextContent(dto.getDateCreate());
+            product.appendChild(dateCreate);
+            Element description = doc.createElement("description");
+            description.setTextContent(dto.getDescription());
+            product.appendChild(description);
+            nodeProducts.appendChild(product);
         }
+
+        //create the xml file 
+        // transform  the DOM object to an XML file 
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource domSource = new DOMSource(doc);
+        StreamResult streamResult = new StreamResult(new File(fileName));
+        transformer.transform(domSource, streamResult);
     }
 }

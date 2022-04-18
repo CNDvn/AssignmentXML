@@ -60,14 +60,14 @@ public class XmlUtil {
         Element categories = document.createElement("categories");
         root.appendChild(categories);
 
-        for (int i = 1; i <= 1000; i++) {
+        for (int i = 1; i <= 5; i++) {
             // category
             Element category = document.createElement("category");
             Element idCategory = document.createElement("idCategory");
-            idCategory.setTextContent("P0003");
+            idCategory.setTextContent("" + i);
             category.appendChild(idCategory);
             Element nameCategory = document.createElement("nameCategory");
-            nameCategory.setTextContent("Guci Guci");
+            nameCategory.setTextContent("Nike " + i);
             category.appendChild(nameCategory);
             categories.appendChild(category);
         }
@@ -80,13 +80,13 @@ public class XmlUtil {
             // product
             Element product = document.createElement("product");
             Element idProduct = document.createElement("id");
-            idProduct.setTextContent("C0112");
+            idProduct.setTextContent("" + i);
             product.appendChild(idProduct);
             Element idCate = document.createElement("idCategory");
-            idCate.setTextContent("P0003");
+            idCate.setTextContent("" + ((i / 200) + 1));
             product.appendChild(idCate);
             Element name = document.createElement("name");
-            name.setTextContent("Nike A33");
+            name.setTextContent("Nike A" + i);
             product.appendChild(name);
             Element image = document.createElement("image");
             image.setTextContent("http://www.imgbb/123");

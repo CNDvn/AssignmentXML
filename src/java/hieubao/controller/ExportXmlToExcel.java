@@ -31,17 +31,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 @WebServlet(name = "ExportXmlToExcel", urlPatterns = {"/ExportXmlToExcel"})
 public class ExportXmlToExcel extends HttpServlet {
 
-    private final static String INDEX_PAGE = "index.html";
     private final static String ERROR_PAGE = "error.html";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = ERROR_PAGE;
         response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         response.setHeader("Content-disposition", "attachment; filename=excel.xlsx");
         response.setCharacterEncoding("UTF-8");
 
-//        PrintWriter out = response.getWriter();
         try {
             String pathSave = request.getServletContext().getRealPath("/xml/excel.xlsx");
             String xmlPath = request.getServletContext().getRealPath("/xml/application_db.xml");
@@ -49,26 +46,11 @@ public class ExportXmlToExcel extends HttpServlet {
             List<ProductDTO> products = new ProductDAO().getProducts(xmlPath, null, null);
             List<CategoryDTO> categories = new CategoryDAO().getAll(xmlPath);
             Workbook workbook = XmlUtil.exportXmlToExcel(pathSave, products, categories);
-
-//            FileInputStream fis = new FileInputStream(pathSave);
-//            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-//            while (true) {
-//                String s = br.readLine();
-//                if (s == null) {
-//                    break;
-//                }
-//                out.println(s);
-//                out.flush();
-//            }
-//            fis.close();
-            url = INDEX_PAGE;
-  
             OutputStream outputStream = response.getOutputStream();
             workbook.write(outputStream);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-//            out.close();
+            request.getRequestDispatcher(ERROR_PAGE).forward(request, response);
         }
     }
 

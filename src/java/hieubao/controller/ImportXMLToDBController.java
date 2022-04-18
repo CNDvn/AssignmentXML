@@ -5,11 +5,17 @@
  */
 package hieubao.controller;
 
+import hieubao.category.CategoryDAO;
+import hieubao.category.CategoryDTO;
 import hieubao.product.ProductDAO;
 import hieubao.product.ProductDTO;
 import hieubao.utils.DBHelper;
 import hieubao.utils.XmlUtil;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -35,35 +41,62 @@ public class ImportXMLToDBController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
         Part filePart = request.getPart("data");
         String url = ERROR_PAGE;
         try {
             String xmlPath = request.getServletContext().getRealPath("/xml/importFile.xml");
             String xsdPath = request.getServletContext().getRealPath("/xml/schema.xml");
-
+            String xmlPathDB = request.getServletContext().getRealPath("/xml/application_db.xml");
             XmlUtil.writeFile(request, filePart, xmlPath);
 
             if (XmlUtil.ValidationXMLSchame(xsdPath, xmlPath)) {
                 if (DBHelper.getConnect() != null) {
-                    ProductDAO dao = new ProductDAO();
-                    List<ProductDTO> products = dao.getProducts(xmlPath, null, null);
-                    dao.importXMLFIleToDatabase(products);
-                    url = SUCCESS_PAGE;
+                    ProductDAO productDAO = new ProductDAO();
+                    CategoryDAO categoryDAO = new CategoryDAO();
+
+                    List<ProductDTO> products = productDAO.getProducts(xmlPath, null, null);
+                    List<CategoryDTO> categories = categoryDAO.getAll(xmlPath);
+
+                    productDAO.importXMLFIleToDatabase(xmlPathDB, products);
+                    categoryDAO.importXMLFIleToDatabase(xmlPathDB, categories);
+
+                    FileInputStream fis = new FileInputStream(xmlPathDB);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+                    response.setHeader("Content-disposition", "attachment; filename=application_db.xml");
+
+                    while (true) {
+                        String s = br.readLine();
+                        if (s == null) {
+                            break;
+                        }
+                        out.println(s);
+                        out.flush();
+                    }
+                    fis.close();
                 }
             } else {
                 url = CHECK_FILE_FAIL_PAGE;
+                request.getRequestDispatcher(url).forward(request, response);
+
             }
         } catch (SAXException e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher(url).forward(request, response);
+
         } catch (IOException e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
+            request.getRequestDispatcher(url).forward(request, response);
+
         } catch (Exception e) {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
-        } finally {
             request.getRequestDispatcher(url).forward(request, response);
+        } finally {
+            out.close();
         }
     }
 

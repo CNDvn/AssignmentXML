@@ -5,10 +5,7 @@
         <group>
             <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/utils/XmlUtil.java</file>
             <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/controller/ExportXmlToExcel.java</file>
-            <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/controller/ImportXMLToDBController.java</file>
-            <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/controller/AddProductController.java</file>
-            <file>file:/D:/FU/CN_VIII/PRX/NikeShop/web/index.html</file>
-            <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/controller/MainController.java</file>
+            <file>file:/D:/FU/CN_VIII/PRX/NikeShop/src/java/hieubao/controller/GenerateDataController.java</file>
         </group>
     </open-files>
 </project-private>

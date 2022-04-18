@@ -198,4 +198,48 @@ public class CategoryDAO {
 
         return null;
     }
+
+    public void importXMLFIleToDatabase(String fileName, List<CategoryDTO> categories) throws ParserConfigurationException,
+            SAXException,
+            IOException,
+            TransformerConfigurationException,
+            TransformerException {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+
+        // optional, but recommended
+        // process XML securely, avoid attacks like XML External Entities (XXE)
+        dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+        DocumentBuilder db = dbf.newDocumentBuilder();
+
+        Document doc = db.parse(new File(fileName));
+
+        // optional, but recommended
+        // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+        doc.getDocumentElement().normalize();
+
+        //get <category>
+        Node nodeCategories = doc.getElementsByTagName("categories").item(0);
+
+        for (CategoryDTO category : categories) {
+            Element categoryElement = doc.createElement("category");
+            Element idElement = doc.createElement("idCategory");
+            idElement.setTextContent(category.getId());
+            categoryElement.appendChild(idElement);
+
+            Element nameElement = doc.createElement("nameCategory");
+            nameElement.setTextContent(category.getName());
+            categoryElement.appendChild(nameElement);
+
+            nodeCategories.appendChild(categoryElement);
+        }
+
+        //create the xml file 
+        // transform  the DOM object to an XML file 
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource domSource = new DOMSource(doc);
+        StreamResult streamResult = new StreamResult(new File(fileName));
+        transformer.transform(domSource, streamResult);
+    }
 }

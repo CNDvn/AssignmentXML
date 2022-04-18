@@ -10,9 +10,7 @@
                                     <xs:sequence>
                                         <xs:element name="idCategory"> 
                                             <xs:simpleType>
-                                                <xs:restriction base="xs:string">
-                                                    <xs:pattern value="P[0-9]{4}"/>
-                                                </xs:restriction>
+                                                <xs:restriction base="xs:integer"/>
                                             </xs:simpleType>
                                         </xs:element>
                                         <xs:element name="nameCategory">
@@ -36,16 +34,12 @@
                                     <xs:sequence>
                                         <xs:element name="id" >
                                             <xs:simpleType>
-                                                <xs:restriction base="xs:string">
-                                                    <xs:pattern value="C[0-9]{4}"/>
-                                                </xs:restriction>
+                                                <xs:restriction base="xs:integer" />
                                             </xs:simpleType>
                                         </xs:element>
                                         <xs:element name="idCategory" >
                                             <xs:simpleType>
-                                                <xs:restriction base="xs:string">
-                                                    <xs:pattern value="P[0-9]{4}"/>
-                                                </xs:restriction>
+                                                <xs:restriction base="xs:integer"/>
                                             </xs:simpleType>
                                         </xs:element>
                                         <xs:element name="name" >
