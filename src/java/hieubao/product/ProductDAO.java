@@ -150,6 +150,9 @@ public class ProductDAO implements Serializable {
 
                 } else if (idCategory.equals(category)) {
                     String name = element.getElementsByTagName("name").item(0).getTextContent();
+                    if (filter == null) {
+                        filter = "";
+                    }
 
                     if (name.indexOf(filter) > 0) {
                         String id = element.getElementsByTagName("id").item(0).getTextContent();
@@ -207,7 +210,7 @@ public class ProductDAO implements Serializable {
                     element.getElementsByTagName("price").item(0).setTextContent("" + newProduct.getPrice());
                     element.getElementsByTagName("dateCreate").item(0).setTextContent(newProduct.getDateCreate().trim());
                     element.getElementsByTagName("description").item(0).setTextContent(newProduct.getDescription().trim());
-
+                    element.getElementsByTagName("idCategory").item(0).setTextContent(newProduct.getIdCategory().trim());
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
                     DOMSource domSource = new DOMSource(doc);

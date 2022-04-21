@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class MainController extends HttpServlet {
 
-    private final String INDEX_PAGE = "index.html";
+//    private final String INDEX_PAGE = "index.html";
     private final String GENERATE_DATA = "GenerateDataController";
     private final String CHECK_DATA = "CheckDataController";
     private final String ADD_CATEGORY = "AddCategoryController";
@@ -26,12 +26,13 @@ public class MainController extends HttpServlet {
     private final String DELETE_PRODUCT = "DeleteProductController";
     private final String UPDATE_PRODUCT = "UpdateProductController";
     private final String EXPORT_DATA = "ExportXmlToExcel";
+    private final String DETAIL_PRODUCT = "DetailProductController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String action = request.getParameter("btnAction");
-        String url = INDEX_PAGE;
+            String action = request.getParameter("btnAction");
+        String url = MANAGE_PRODUCT;
         try {
             if ("Generate Data".equals(action)) {
                 url = GENERATE_DATA;
@@ -39,7 +40,6 @@ public class MainController extends HttpServlet {
             if ("Check Data".equals(action)) {
                 url = CHECK_DATA;
             }
-
             if ("New Category".equals(action)) {
                 url = ADD_CATEGORY;
             }
@@ -61,6 +61,9 @@ public class MainController extends HttpServlet {
 
             if ("export".equals(action)) {
                 url = EXPORT_DATA;
+            }
+            if("detailProduct".equals(action)){
+                url = DETAIL_PRODUCT;
             }
 
         } catch (Exception e) {

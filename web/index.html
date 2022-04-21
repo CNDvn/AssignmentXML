@@ -9,34 +9,188 @@ and open the template in the editor.
         <title>Index</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <style>
+            .wrapper {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                /*                align-items: center;
+                                justify-content: center;*/
+            }
+            .wrapper .file-upload {
+                height: 200px;
+                width: 200px;
+                border-radius: 100px;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 4px solid #fff;
+                overflow: hidden;
+                background-image: linear-gradient(to bottom, #2590eb 50%, #fff 50%);
+                background-size: 100% 200%;
+                transition: all 1s;
+                color: #fff;
+                font-size: 100px;
+            }
+            .wrapper .file-upload input[type='file'] {
+                height: 200px;
+                width: 200px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                cursor: pointer;
+            }
+            .wrapper .file-upload:hover {
+                background-position: 0 -100%;
+                color: #2590eb;
+            }
+
+        </style>
     </head>
     <body>
         <div>
-            <h2>Choose feature</h2>
+            <h2 class="text-center">Choose feature</h2>
             <div>
-                <form method="post" action="MainController">
-                    <input type="submit" name="btnAction" value="Generate Data" />
-                </form>
+                <!--                <form method="post" action="MainController">
+                                    <input type="submit" name="btnAction" value="Generate Data"  type="button" class="btn btn-primary"/>
+                                </form-->
+                <button id="generateData">Generate Data</button>
             </div>
 
             <div style="margin-top: 10px">
-                <form method="post" action="CheckDataController" enctype="multipart/form-data">
-                    <input name="data" type="file" />
-                    <input type="submit" name="btnAction" value="Check Data" />
-                </form>
+                <!--                <form method="post" action="CheckDataController" enctype="multipart/form-data" >
+                                    <div class="wrapper">
+                                        <div class="file-upload">
+                                            <input type="file" name="data"/>
+                                            <i class="fa fa-arrow-up"></i>
+                                        </div>
+                                    </div>
+                                    <input type="submit" name="btnAction" value="Check Data" class="btn btn-dark"/>
+                                </form>-->
+                <button id="checkData">Check Data</button>
             </div>
             <div style="margin-top: 10px">
                 <form method="get" action="MainController">
-                    <input type="submit" name="btnAction" value="Manage Product" />
+                    <input type="submit" name="btnAction" value="Manage Product"  class="btn btn-success" />
                 </form>
             </div>
             <div style="margin-top: 10px">
-                <form method="post" action="ImportXMLToDBController" enctype="multipart/form-data">
-                    <input name="data" type="file" />
-                    <input type="submit" name="btnAction" value="Import data" />
-                </form>
+                <!--                <form method="post" action="ImportXMLToDBController" enctype="multipart/form-data">
+                                    <div class="wrapper">
+                                        <div class="file-upload">
+                                            <input type="file" name="data"/>
+                                            <i class="fa fa-arrow-up"></i>
+                                        </div>
+                                    </div>
+                                    <input type="submit" name="btnAction" value="Import data" class="btn btn-dark"/>
+                                </form>-->
+                <button id='importData'>Import Data</button>
             </div>
-            <a href="MainController?btnAction=export">Export</a>
+            <button><a href="MainController?btnAction=export">Export</a></button>
         </div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.1/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            function postForm(path, params, method) {
+                method = method || 'post';
+
+                var form = document.createElement('form');
+                form.setAttribute('method', method);
+                form.setAttribute('action', path);
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement('input');
+                        hiddenField.setAttribute('type', 'hidden');
+                        hiddenField.setAttribute('name', key);
+                        hiddenField.setAttribute('value', params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            function postFormMultipart(path, params, method, data) {
+                method = method || 'post';
+
+                var form = document.createElement('form');
+                form.setAttribute('method', method);
+                form.setAttribute('action', path);
+                form.setAttribute('enctype', 'multipart/form-data')
+
+                for (var key in params) {
+                    if (params.hasOwnProperty(key)) {
+                        var hiddenField = document.createElement('input');
+                        hiddenField.setAttribute('type', 'hidden');
+                        hiddenField.setAttribute('name', key);
+                        hiddenField.setAttribute('value', params[key]);
+
+                        form.appendChild(hiddenField);
+                    }
+                }
+                var dataField = document.createElement('input');
+                dataField.setAttribute('type', 'file');
+                hiddenField.setAttribute('name', 'data');
+                hiddenField.setAttribute('value', data);
+                form.appendChild(dataField);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            const generateData = document.getElementById("generateData").addEventListener("click", () => {
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "If you generate data then old data will remove!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        postForm('MainController', {btnAction: 'Generate Data'});
+                    }
+                })
+            }
+            );
+
+            const checkData = document.getElementById("checkData").addEventListener("click", () => {
+                Swal.fire({
+                    title: 'Submit file need check',
+                    html:
+                            '<form method="post" action="CheckDataController" enctype="multipart/form-data">\n\
+                                <input type="file" name="data"/>\n\
+                                <input style="margin-top:30px" type="submit" name="btnAction" value="Check Data" class="btn btn-dark"/>\n\
+                            </form>',
+                    showCloseButton: true,
+                    showConfirmButton: false
+                })
+            });
+
+            const importData = document.getElementById('importData').addEventListener('click', () => {
+                Swal.fire({
+                    title: 'Submit file need import',
+                    html:
+                            '<form  method="post" action="ImportXMLToDBController" enctype="multipart/form-data">\n\
+                                <input type="file" name="data"/>\n\
+                                <input style="margin-top:30px"  type="submit" name="btnAction" value="Import data" class="btn btn-dark"/>\n\
+                            </form>',
+                    showCloseButton: true,
+                    showConfirmButton: false
+                })
+            })
+
+        </script>
     </body>
 </html>
